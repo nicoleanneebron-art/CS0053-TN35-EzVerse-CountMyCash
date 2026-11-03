@@ -10,10 +10,9 @@
 #include <iomanip>
 #include <cmath>
 
-bool isValidDate(const std::string& date)
+bool isValidDate(const std::string &date)
 {
-    if (date.length() != 10 ||
-        date[4] != '-' || date[7] != '-')
+    if (date.length() != 10 || date[4] != '-' || date[7] != '-')
     {
         return false;
     }
@@ -23,8 +22,7 @@ bool isValidDate(const std::string& date)
 
     std::istringstream dateStream(date);
 
-    if (!(dateStream >> year >> firstDash >> month
-                     >> secondDash >> day))
+    if (!(dateStream >> year >> firstDash >> month >> secondDash >> day))
     {
         return false;
     }
@@ -39,14 +37,9 @@ bool isValidDate(const std::string& date)
         return false;
     }
 
-    int daysInMonth[] = {
-        31, 28, 31, 30, 31, 30,
-        31, 31, 30, 31, 30, 31
-    };
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    bool isLeapYear =
-        (year % 400 == 0) ||
-        (year % 4 == 0 && year % 100 != 0);
+    bool isLeapYear = (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
 
     if (isLeapYear)
     {
@@ -56,11 +49,11 @@ bool isValidDate(const std::string& date)
     return day >= 1 && day <= daysInMonth[month - 1];
 }
 
-int getNextExpenseId(const std::vector<Expense>& expenses)
+int getNextExpenseId(const std::vector<Expense> &expenses)
 {
     int highestId = 0;
 
-    for (const Expense& expense : expenses)
+    for (const Expense &expense : expenses)
     {
         if (expense.expenseId > highestId)
         {
@@ -83,8 +76,7 @@ void addExpense()
     std::cout << "Enter expense description: ";
     std::getline(std::cin >> std::ws, description);
 
-    if (description.find_first_not_of(" \t\r\n") ==
-        std::string::npos)
+    if (description.find_first_not_of(" \t\r\n") == std::string::npos)
     {
         std::cout << "Description cannot be empty.\n";
         return;
@@ -100,8 +92,7 @@ void addExpense()
     {
         std::cout << "Invalid category input.\n";
         std::cin.clear();
-        std::cin.ignore(
-            std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
 
@@ -118,21 +109,17 @@ void addExpense()
     {
         std::cout << "Amount must be numeric.\n";
         std::cin.clear();
-        std::cin.ignore(
-            std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return;
     }
 
-    if (!std::isfinite(amount) ||
-        amount <= 0 ||
-        amount > 1000000000.0)
+    if (!std::isfinite(amount) || amount <= 0 || amount > 1000000000.0)
     {
         std::cout << "Amount must be greater than 0 and at most 1,000,000,000.\n";
         return;
     }
 
-    std::cin.ignore(
-        std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     std::cout << "Enter date (YYYY-MM-DD): ";
     std::getline(std::cin, date);
@@ -143,7 +130,6 @@ void addExpense()
         return;
     }
 
-    
     std::vector<Expense> expenses;
 
     // Load existing expense records.
@@ -180,20 +166,18 @@ void addExpense()
 
     switch (newExpense.categoryId)
     {
-        case 1:
-            std::cout << "Food\n";
-            break;
-        case 2:
-            std::cout << "Transportation\n";
-            break;
-        case 3:
-            std::cout << "Utilities\n";
-            break;
+    case 1:
+        std::cout << "Food\n";
+        break;
+    case 2:
+        std::cout << "Transportation\n";
+        break;
+    case 3:
+        std::cout << "Utilities\n";
+        break;
     }
 
-    std::cout << "Amount: " << std::fixed
-              << std::setprecision(2)
-              << newExpense.amount << '\n';
+    std::cout << "Amount: " << std::fixed << std::setprecision(2) << newExpense.amount << '\n';
 
     std::cout << "Date: " << newExpense.date << '\n';
 }

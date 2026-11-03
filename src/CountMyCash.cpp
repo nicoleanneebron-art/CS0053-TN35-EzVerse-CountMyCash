@@ -9,128 +9,150 @@
 #include <string>
 #include <vector>
 
-namespace {
-enum class MenuInputResult { Valid, Invalid, EndOfInput };
+namespace
+{
+enum class MenuInputResult
+{
+    Valid,
+    Invalid,
+    EndOfInput
+};
 
-MenuInputResult readMenuOption(int &selectedOption) {
-  std::string input;
+MenuInputResult readMenuOption(int &selectedOption)
+{
+    std::string input;
 
-  if (!std::getline(std::cin, input)) {
-    return MenuInputResult::EndOfInput;
-  }
+    if (!std::getline(std::cin, input))
+    {
+        return MenuInputResult::EndOfInput;
+    }
 
-  std::istringstream inputStream(input);
-  char extraCharacter;
+    std::istringstream inputStream(input);
+    char extraCharacter;
 
-  if (!(inputStream >> selectedOption) || (inputStream >> extraCharacter)) {
-    return MenuInputResult::Invalid;
-  }
+    if (!(inputStream >> selectedOption) || (inputStream >> extraCharacter))
+    {
+        return MenuInputResult::Invalid;
+    }
 
-  return MenuInputResult::Valid;
+    return MenuInputResult::Valid;
 }
 
-bool reloadExpenses(std::vector<Expense> &expenses) {
-  if (!loadExpenses(expenses)) {
-    std::cout << "Error: Could not load expense records.\n";
-    return false;
-  }
+bool reloadExpenses(std::vector<Expense> &expenses)
+{
+    if (!loadExpenses(expenses))
+    {
+        std::cout << "Error: Could not load expense records.\n";
+        return false;
+    }
 
-  return true;
+    return true;
 }
 
-void displayMainMenu() {
-  std::cout << "\n";
-  std::cout << "+--------------------------------------------------+\n";
-  std::cout << "|                  COUNT MY CASH                  |\n";
-  std::cout << "|             Personal Expense Tracker            |\n";
-  std::cout << "+--------------------------------------------------+\n";
-  std::cout << "\n";
-  std::cout << "MAIN MENU\n\n";
-  std::cout << "[1] Add Expense\n";
-  std::cout << "[2] View Expenses\n";
-  std::cout << "[3] Search Expenses\n";
-  std::cout << "[4] Update Expense\n";
-  std::cout << "[5] Delete Expense\n";
-  std::cout << "[6] Generate Summary\n";
-  std::cout << "[0] Exit\n\n";
-  std::cout << "Select an option: ";
+void displayMainMenu()
+{
+    std::cout << "\n";
+    std::cout << "+--------------------------------------------------+\n";
+    std::cout << "|                  COUNT MY CASH                  |\n";
+    std::cout << "|             Personal Expense Tracker            |\n";
+    std::cout << "+--------------------------------------------------+\n";
+    std::cout << "\n";
+    std::cout << "MAIN MENU\n\n";
+    std::cout << "[1] Add Expense\n";
+    std::cout << "[2] View Expenses\n";
+    std::cout << "[3] Search Expenses\n";
+    std::cout << "[4] Update Expense\n";
+    std::cout << "[5] Delete Expense\n";
+    std::cout << "[6] Generate Summary\n";
+    std::cout << "[0] Exit\n\n";
+    std::cout << "Select an option: ";
 }
 } // namespace
 
-int main() {
-  if (!initializeStorage()) {
-    std::cout << "Error: Could not initialize storage.\n";
-    return 1;
-  }
-
-  std::vector<Expense> expenses;
-
-  if (!reloadExpenses(expenses)) {
-    return 1;
-  }
-
-  int selectedOption = -1;
-
-  while (selectedOption != 0) {
-    displayMainMenu();
-
-    const MenuInputResult inputResult = readMenuOption(selectedOption);
-
-    if (inputResult == MenuInputResult::EndOfInput) {
-      std::cout << "\nExiting Count My Cash...\n";
-      break;
+int main()
+{
+    if (!initializeStorage())
+    {
+        std::cout << "Error: Could not initialize storage.\n";
+        return 1;
     }
 
-    if (inputResult == MenuInputResult::Invalid) {
-      std::cout << "Invalid menu selection.\n";
-      continue;
+    std::vector<Expense> expenses;
+
+    if (!reloadExpenses(expenses))
+    {
+        return 1;
     }
 
-    switch (selectedOption) {
-    case 1:
-      addExpense();
-      reloadExpenses(expenses);
-      break;
+    int selectedOption = -1;
 
-    case 2:
-      if (reloadExpenses(expenses)) {
-        viewExpenses(expenses);
-      }
-      break;
+    while (selectedOption != 0)
+    {
+        displayMainMenu();
 
-    case 3:
-      if (reloadExpenses(expenses)) {
-        searchExpenses(expenses);
-      }
-      break;
+        const MenuInputResult inputResult = readMenuOption(selectedOption);
 
-    case 4:
-      updateExpense();
-      reloadExpenses(expenses);
-      break;
+        if (inputResult == MenuInputResult::EndOfInput)
+        {
+            std::cout << "\nExiting Count My Cash...\n";
+            break;
+        }
 
-    case 5:
-      deleteExpense();
-      reloadExpenses(expenses);
-      break;
+        if (inputResult == MenuInputResult::Invalid)
+        {
+            std::cout << "Invalid menu selection.\n";
+            continue;
+        }
 
-    case 6:
-      if (reloadExpenses(expenses)) {
-        const ExpenseSummary summary = generateSummary(expenses);
+        switch (selectedOption)
+        {
+        case 1:
+            addExpense();
+            reloadExpenses(expenses);
+            break;
 
-        displaySummary(summary);
-      }
-      break;
+        case 2:
+            if (reloadExpenses(expenses))
+            {
+                viewExpenses(expenses);
+            }
+            break;
 
-    case 0:
-      std::cout << "Exiting Count My Cash...\n";
-      break;
+        case 3:
+            if (reloadExpenses(expenses))
+            {
+                searchExpenses(expenses);
+            }
+            break;
 
-    default:
-      std::cout << "Invalid menu selection.\n";
-      break;
+        case 4:
+            updateExpense();
+            reloadExpenses(expenses);
+            break;
+
+        case 5:
+            deleteExpense();
+            reloadExpenses(expenses);
+            break;
+
+        case 6:
+            if (reloadExpenses(expenses))
+            {
+                const ExpenseSummary summary = generateSummary(expenses);
+
+                displaySummary(summary);
+            }
+            break;
+
+        case 0:
+            std::cout << "Exiting Count My Cash...\n";
+            break;
+
+        default:
+            std::cout << "Invalid menu selection.\n";
+            break;
+        }
     }
-  }
 
-  return 0;
+    return 0;
 }

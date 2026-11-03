@@ -6,7 +6,7 @@
 #include "Expense.h"
 #include "ExpenseSummary.h"
 
-ExpenseSummary generateSummary(const std::vector<Expense>& expenses);
-void displaySummary(const ExpenseSummary& summary);
+ExpenseSummary generateSummary(const std::vector<Expense> &expenses);
+void displaySummary(const ExpenseSummary &summary);
 
 #endif
