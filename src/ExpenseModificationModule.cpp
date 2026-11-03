@@ -100,12 +100,9 @@ static bool isValidExpenseDate(const string &date)
         return false;
     }
 
-    int daysInMonth[] = {
-        31, 28, 31, 30, 31, 30,
-        31, 31, 30, 31, 30, 31};
+    int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    bool isLeapYear = (year % 400 == 0) ||
-                      (year % 4 == 0 && year % 100 != 0);
+    bool isLeapYear = (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
 
     if (isLeapYear)
     {
@@ -202,8 +199,7 @@ void updateExpense()
 
     string newAmount;
 
-    cout << "\nCurrent Amount: " << fixed << setprecision(2)
-         << updatedExpense.amount << endl;
+    cout << "\nCurrent Amount: " << fixed << setprecision(2) << updatedExpense.amount << endl;
     cout << "New Amount (Enter to keep current): ";
     getline(cin, newAmount);
 

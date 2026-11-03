@@ -6,7 +6,7 @@
 #include "Expense.h"
 
 bool initializeStorage();
-bool loadExpenses(std::vector<Expense>& expenses);
-bool saveExpenses(const std::vector<Expense>& expenses);
+bool loadExpenses(std::vector<Expense> &expenses);
+bool saveExpenses(const std::vector<Expense> &expenses);
 
 #endif
