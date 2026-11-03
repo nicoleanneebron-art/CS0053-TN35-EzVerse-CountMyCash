@@ -5,21 +5,28 @@
 #include "FileStorageModule.h"
 
 #include <iostream>
-#include <limits>
+#include <sstream>
+#include <string>
 #include <vector>
 
 namespace {
-bool readMenuOption(int &selectedOption) {
-  if (std::cin >> selectedOption) {
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+enum class MenuInputResult { Valid, Invalid, EndOfInput };
 
-    return true;
+MenuInputResult readMenuOption(int &selectedOption) {
+  std::string input;
+
+  if (!std::getline(std::cin, input)) {
+    return MenuInputResult::EndOfInput;
   }
 
-  std::cin.clear();
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::istringstream inputStream(input);
+  char extraCharacter;
 
-  return false;
+  if (!(inputStream >> selectedOption) || (inputStream >> extraCharacter)) {
+    return MenuInputResult::Invalid;
+  }
+
+  return MenuInputResult::Valid;
 }
 
 bool reloadExpenses(std::vector<Expense> &expenses) {
@@ -67,7 +74,14 @@ int main() {
   while (selectedOption != 0) {
     displayMainMenu();
 
-    if (!readMenuOption(selectedOption)) {
+    const MenuInputResult inputResult = readMenuOption(selectedOption);
+
+    if (inputResult == MenuInputResult::EndOfInput) {
+      std::cout << "\nExiting Count My Cash...\n";
+      break;
+    }
+
+    if (inputResult == MenuInputResult::Invalid) {
       std::cout << "Invalid menu selection.\n";
       continue;
     }
