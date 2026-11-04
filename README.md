@@ -1,4 +1,4 @@
-# CS0053-TN35-EzVerse-CoutMyCash
+# CS0053-TN35-EzVerse-CountMyCash
 Final Project for Programming Tools and Techniques...
 
 Count My Cash is a C++17 console-based personal expense tracker. It allows users to add, view, search, update, delete, and summarize expense records.
