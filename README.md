@@ -20,7 +20,6 @@ Count My Cash is a C++17 console-based personal expense tracker developed for th
 
 ```text
 CountMyCash/
-CountMyCash/
 │
 ├── src/
 │   ├── CountMyCash.cpp
